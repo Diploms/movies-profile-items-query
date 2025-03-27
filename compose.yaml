@@ -1,0 +1,18 @@
+services:
+  redis:
+    image: redis:7.4.2
+    ports:
+      - "9941:6379"
+    environment:
+      - REDIS_PASSWORD=pass
+      - REDIS_USER=user
+      - REDIS_USER_PASSWORD=pass
+    command: [sh, -c, "rm -f /data/dump.rdb && redis-server --save ''"]
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping" ]
+      interval: 1s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
