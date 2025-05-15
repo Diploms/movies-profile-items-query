@@ -26,17 +26,16 @@ public class ProfileProjectionHandler {
 
     @EventHandler
     @Transactional
-    void on(ProfileUpdatedEvent1 event) {
+    public void on(ProfileUpdatedEvent1 event) {
         var profile = repository.findById(event.id()).orElseThrow();
         profile.setName(event.dto().name());
-        repository.save(profile);
+        profile.setEmail(event.dto().email());
     }
 
     @EventHandler
     @Transactional
-    void on(ProfileConfirmedEvent1 event) {
+    public void on(ProfileConfirmedEvent1 event) {
         var profile = repository.findById(event.profileId()).orElseThrow();
         profile.setConfirmed(true);
-        repository.save(profile);
     }
 }
